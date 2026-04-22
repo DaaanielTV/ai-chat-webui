@@ -3,37 +3,32 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import dotenv from 'dotenv';
 
-// Initialize environment variables
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434/api/generate';
 
-// Serve static files
 app.use(express.static(__dirname));
 app.use(express.json());
 
-// CORS middleware
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    
-    // Handle preflight requests
+
     if (req.method === 'OPTIONS') {
         return res.sendStatus(200);
     }
     next();
 });
 
-// Route for the main page
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
 
-// Proxy route for Ollama API
 app.post('/api/generate', async (req, res) => {
     try {
         console.log('Received request:', req.body);
@@ -42,12 +37,12 @@ app.post('/api/generate', async (req, res) => {
             throw new Error('No prompt provided');
         }
 
-        console.log('Sending request to Ollama...');
-        
-        const response = await fetch('http://localhost:11434/api/generate', {
+        console.log('Sending request to model backend...');
+
+        const response = await fetch(OLLAMA_API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 model: process.env.OLLAMA_MODEL || 'qwen2.5:0.5b',
@@ -56,16 +51,16 @@ app.post('/api/generate', async (req, res) => {
             })
         });
 
-        console.log('Ollama response status:', response.status);
+        console.log('Model backend response status:', response.status);
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('Ollama error:', errorText);
-            throw new Error(`Ollama API error: ${response.status}`);
+            console.error('Model backend error:', errorText);
+            throw new Error(`Model API error: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('Ollama response:', {
+        console.log('Model response:', {
             model: data.model,
             response_length: data.response?.length
         });
@@ -74,22 +69,19 @@ app.post('/api/generate', async (req, res) => {
             response: data.response,
             model: data.model
         });
-
     } catch (error) {
         console.error('Server error:', error);
-        res.status(500).json({ 
-            error: 'Failed to communicate with Ollama API',
+        res.status(500).json({
+            error: 'Failed to communicate with model API',
             details: error.message
         });
     }
 });
 
-// Health check endpoint
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Global error handler:', err);
     res.status(500).json({
@@ -104,6 +96,7 @@ app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
     console.log('Environment:', {
         nodeEnv: process.env.NODE_ENV,
+        ollamaApiUrl: OLLAMA_API_URL,
         ollamaModel: process.env.OLLAMA_MODEL,
         port: PORT
     });
