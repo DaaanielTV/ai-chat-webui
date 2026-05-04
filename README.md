@@ -7,7 +7,7 @@ I'm not responsible if this breaks your setup. Test it before using it in produc
 
 > 🤖 A lightning-fast, privacy-focused AI chat interface powered by Ollama's local models
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## ✨ Features
 
@@ -71,7 +71,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU GPL-3.0-only License - see the [LICENSE](LICENSE) file for details.
 
 ## 🔗 Related Projects
 

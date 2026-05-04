@@ -14,8 +14,14 @@ const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434/api
 app.use(express.static(__dirname));
 app.use(express.json());
 
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || `http://localhost:${process.env.PORT || 3000}`;
+
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    const requestOrigin = req.headers.origin;
+    if (requestOrigin && requestOrigin === ALLOWED_ORIGIN) {
+        res.header('Access-Control-Allow-Origin', requestOrigin);
+        res.header('Vary', 'Origin');
+    }
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -72,8 +78,7 @@ app.post('/api/generate', async (req, res) => {
     } catch (error) {
         console.error('Server error:', error);
         res.status(500).json({
-            error: 'Failed to communicate with model API',
-            details: error.message
+            error: 'Failed to communicate with model API'
         });
     }
 });
@@ -86,7 +91,6 @@ app.use((err, req, res, next) => {
     console.error('Global error handler:', err);
     res.status(500).json({
         error: 'Internal server error',
-        details: err.message,
         timestamp: new Date().toISOString()
     });
 });
