@@ -71,8 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+function escapeHtml(value) {
+    return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
     function formatContent(content) {
-        if (typeof content !== 'string') return content;
+        if (typeof content !== 'string') return '';
 
         // First handle ### headers
         content = content.replace(/### (.*$)/gm, '<h3 class="content-header">$1</h3>');
@@ -89,14 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < parts.length; i++) {
             if (i % 3 === 0) {
                 // Regular text part
-                formattedContent += parts[i]
+                formattedContent += escapeHtml(parts[i])
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>')
                     .replace(/(<li>.*<\/li>\n?)+/g, '<ol>$&</ol>');
             } else if (i % 3 === 1) {
                 // Language identifier (if any)
-                const language = parts[i] || 'text';
-                const code = parts[i + 1];
+                const language = (parts[i] || 'text').replace(/[^a-zA-Z0-9_-]/g, '');
+                const code = escapeHtml(parts[i + 1]);
                 const id = 'code-' + Math.random().toString(36).substr(2, 9);
 
                 formattedContent += `
@@ -110,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 Copy
                             </button>
                         </div>
-                        <pre><code id="${id}" class="language-${language}">${code.trim()}</code></pre>
+                        <pre><code id="${id}" class="language-${language || 'text'}">${code.trim()}</code></pre>
                     </div>`;
                 i++; // Skip the next part as we've already processed it
             }
@@ -238,7 +248,7 @@ Please ensure your message follows our content guidelines:
                 throw new Error(data.error);
             }
 
-            thinkingMessage.querySelector('.message-text').innerHTML = data.response;
+            thinkingMessage.querySelector('.message-text').innerHTML = formatContent(data.response || '');
             thinkingMessage.scrollIntoView({ behavior: 'smooth' });
 
         } catch (error) {
