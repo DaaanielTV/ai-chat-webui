@@ -1,87 +1,76 @@
-## Warranty & Liability
-This software is provided "as is", without warranty of any kind. See the LICENSE file for the full GPL-3.0 disclaimer of warranty and limitation of liability.
+ AI Chat WebUI – Lokal & Privat
 
-I'm not responsible if this breaks your setup. Test it before using it in production.
- 
- # 🚀 Ultra-Fast AI Chat | Ollama Web Interface
+> Blitzschnelles, privacy-fokussiertes Chat-Interface für Ollama – alles läuft lokal, nichts geht in die Cloud.
 
-> 🤖 A lightning-fast, privacy-focused AI chat interface powered by Ollama's local models
+Ursprung am 14.03.2025 – first commit `bc38708` mit nur 3 Dateien, hieß noch `super-fast-ai-chat`. Nur `README.md`, `index.html`, `index.js`.
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+### Entstehung
 
-## ✨ Features
+Früher war mein Mindset: "Lieber meinen $5 VPS auf 100% CPU ballern als ein paar Cent an einen Inference Provider zu zahlen". Heute sehe ich es anders: Ich würde das meiste in der Cloud machen und nur für wirklich private Dinge lokale 4B Modelle nutzen – statt teuren VPS dauerhaft zu quälen.
 
-- 🚄 **Ultra-Fast Responses**: Get instant AI responses with local processing power
-- 🔒 **Privacy First**: All conversations stay on your machine
-- 💻 **Local Models**: Powered by Ollama's efficient local AI models
-- 🎨 **Modern UI**: Clean, responsive design with smooth animations
-- ⚡ **Real-time Processing**: Instant message handling and streaming responses
-- 🔧 **Easy Configuration**: Simple settings panel for API configuration
+Genau dafür ist dieses Projekt: Kein Framework, pure JS, einfach `index.html` öffnen und lokal chatten.
 
-## 🚀 Quick Start
+## Features
 
-1. **Prerequisites**
-   - Install [Ollama](https://ollama.ai) on your machine
-   - Pull your preferred model:
-     ```bash
-     ollama pull qwen2.5:0.5b
-     ```
+- 🚄 **Ultra-schnell** – lokale Antworten ohne Cloud Latenz
+- 🔒 **Privacy First** – alle Chats bleiben auf deiner Maschine
+- 💻 **Lokale Modelle** – via Ollama
+- 🎨 **Modernes UI** – clean, responsive, mit Streaming
+- 🔧 **Einfach konfigurierbar** – API URL ändern fertig
 
-2. **Installation**
-   ```bash
-   git clone https://github.com/DaaanielTV/super-fast-ai-chat
-   cd super-fast-ai-chat
-   ```
+## Schnellstart
 
-3. **Usage**
-   - Open `index.html` in your browser
-   - Start chatting with the AI!
+### 1) Voraussetzungen
+- [Ollama](https://ollama.ai) installieren
+- Modell pullen:
+```bash
+ollama pull qwen2.5:0.5b
+# oder für private Tasks heute eher:
+ollama pull gemma3:4b
+```
 
-## 💡 Key Benefits
+### 2) Installation
+```bash
+git clone https://github.com/drosemann/ai-chat-webui
+cd ai-chat-webui
+```
 
-- 🎯 No cloud dependencies
-- 🔐 Enhanced privacy and security
-- ⚡ Reduced latency
-- 💪 Full control over AI models
-- 🎨 Beautiful, intuitive interface
+### 3) Nutzung
+- `index.html` im Browser öffnen
+- Loschatten
 
-## 🛠️ Technical Stack
+Kein Build, kein npm, kein Docker nötig.
 
-- 💻 Pure JavaScript (No frameworks)
-- 🎨 Modern CSS with custom properties
-- 🔄 Async/Await API handling
-- 📱 Responsive design
-- 🔌 Ollama API integration
+## Warum heute noch relevant?
 
-## 📝 Configuration
+Früher wollte ich ALLES lokal hosten um ein paar Cent zu sparen. Heute nutze ich das Tool gezielt für:
 
-Access the settings panel to configure:
-- Ollama API URL (default: `http://localhost:11434/api/generate`)
-- Additional settings as needed
+- **Private Notizen / sensible Daten** – die nie zu OpenAI & Co sollen
+- **Offline Arbeit** – im Zug, ohne Internet
+- **Low-Latency Tests** – wenn ich schnell Modelle testen will ohne API Keys
 
-## 🤝 Contributing
+Für den Rest: Cloud. Günstiger und schneller.
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## Tech Stack
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Pure JavaScript (kein Framework)
+- Modernes CSS mit Custom Properties
+- Async/Await + Ollama API
+- Responsive Design
+- Ollama API: `http://localhost:11434/api/generate`
 
-## 📜 License
+## Konfiguration
 
-This project is licensed under the GNU GPL-3.0-only License - see the [LICENSE](LICENSE) file for details.
+Im Settings Panel:
 
-## 🔗 Related Projects
+- Ollama API URL (default `http://localhost:11434/api/generate`)
+- Modell wechseln
+
+## Lizenz
+
+GNU GPLv3 – siehe [LICENSE](LICENSE).
+
+## Related
 
 - [Ollama](https://github.com/jmorganca/ollama)
 - [LangChain](https://github.com/hwchase17/langchain)
-
-## 📞 Support
-
-For support, please open an issue in the repository.
-
-## 🔍 Keywords
-
-AI chat, Ollama, local AI, privacy-focused chat, fast AI responses, web interface, JavaScript chat application, AI assistant, machine learning chat, natural language processing
